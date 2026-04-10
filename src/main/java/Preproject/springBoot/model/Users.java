@@ -1,0 +1,113 @@
+package Preproject.springBoot.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import java.util.Objects;
+
+@Entity
+@Table(name="users")
+public class Users {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    @Column
+    private String name;
+    @Column
+    private String surName;
+    @Column
+    private String department;
+    @Column
+    private int salary;
+
+    @Column
+    private String password;
+
+    public Users(String name, String surName, String department, int salary, String password) {
+        this.name = name;
+        this.surName = surName;
+        this.department = department;
+        this.salary = salary;
+        this.password = this.password;
+    }
+
+    public Users() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurName() {
+        return surName;
+    }
+
+    public void setSurName(String surName) {
+        this.surName = surName;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public int getSalary() {
+        return salary;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Users users = (Users) o;
+        return id == users.id && salary == users.salary && Objects.equals(name, users.name) && Objects.equals(surName, users.surName) && Objects.equals(department, users.department) && Objects.equals(password, users.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, surName, department, salary, password);
+    }
+
+    @Override
+    public String toString() {
+        return "Users{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surName='" + surName + '\'' +
+                ", department='" + department + '\'' +
+                ", salary=" + salary +
+                ", password='" + password + '\'' +
+                '}' ;
+    }
+}
+
