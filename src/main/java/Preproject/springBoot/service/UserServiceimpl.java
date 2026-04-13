@@ -1,8 +1,7 @@
 package Preproject.springBoot.service;
 
-
-import Preproject.springBoot.dao.UserDao;
 import Preproject.springBoot.model.Users;
+import Preproject.springBoot.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -10,39 +9,36 @@ import java.util.List;
 
 @Service
 public class UserServiceimpl implements UserService {
-    private final UserDao dao;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceimpl(UserDao dao, PasswordEncoder passwordEncoder) {
-        this.dao = dao;
+    public UserServiceimpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void saveUser(String name, String surName, String department, int salary, String password) {
-        String encodedPassword = passwordEncoder.encode(password);
-        dao.saveUser(name, surName, department, salary, encodedPassword);
+    public void saveUser(Users user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
     }
 
-    public void removeUserById(long id) {
-        dao.removeUserById(id);
+    public void deleteUser(long id) {
+        userRepository.deleteById(id);
     }
 
     public List<Users> getAllUsers() {
-        return dao.getAllUsers();
-    }
-    public void cleanUsersTable() {
-        dao.cleanUsersTable();
+        return userRepository.findAll();
     }
 
-    public void updateUser(long id, String name, String surName, String department, int salary, String password) {
-        Users user = new Users(name, surName, department, salary, password);
-        user.setId(id);
-        user.setPassword(passwordEncoder.encode(password));
-        dao.updateUser(user);
+    public void updateUser(Users user) {
+        if (user.getPassword() != null && !user.getPassword().startsWith("$2a$")) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        userRepository.save(user);
     }
 
     @Override
     public Users getUserById(long id) {
-        return dao.getUserById(id);
+        return userRepository.findById(id).orElse(null);
     }
 }

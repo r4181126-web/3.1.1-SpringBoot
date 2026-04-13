@@ -32,13 +32,14 @@ public class UserController {
                           @RequestParam("department") String department,
                           @RequestParam("salary") int salary,
                           @RequestParam("password") String password) {
-        userService.saveUser(name, surName, department, salary, password);
+        Users user = new Users (name, surName, department, salary, password);
+        userService.saveUser(user);
         return "redirect:/users";
     }
 
     @PostMapping("/delete")
     public String deleteUser(@RequestParam("id") long id) {
-        userService.removeUserById(id);
+        userService.deleteUser(id);
         return "redirect:/users";
     }
 
@@ -49,7 +50,9 @@ public class UserController {
                              @RequestParam("department") String department,
                              @RequestParam("salary") int salary,
                              @RequestParam("password") String password) {
-        userService.updateUser(id, name, surName, department, salary, password);
+        Users user = new Users (name, surName, department, salary, password);
+        user.setId(id);
+        userService.updateUser(user);
         return "redirect:/users";
     }
     @GetMapping("/new")

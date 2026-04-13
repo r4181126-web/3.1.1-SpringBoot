@@ -4,15 +4,13 @@ import Preproject.springBoot.model.Users;
 import java.util.List;
 
     public interface UserService {
+        void saveUser(Users user);
 
-        void saveUser(String name, String SurName, String department, int salary, String password);
-
-        void removeUserById(long id);
+        void deleteUser(long id);
 
         List<Users> getAllUsers();
 
-        void cleanUsersTable();
-        void updateUser(long id, String name, String surName, String department, int salary, String password);
+        void updateUser(Users user);
 
         Users getUserById(long id);
     }
