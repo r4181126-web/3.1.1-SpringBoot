@@ -1,7 +1,6 @@
 package Preproject.springBoot.dao;
 
 import Preproject.springBoot.model.Users;
-
 import java.util.List;
 
 public interface UserDao {

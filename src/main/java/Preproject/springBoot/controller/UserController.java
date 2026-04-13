@@ -2,6 +2,7 @@ package Preproject.springBoot.controller;
 
 import Preproject.springBoot.model.Users;
 import Preproject.springBoot.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserController {
     private final UserService userService;
 
+    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -32,14 +34,13 @@ public class UserController {
                           @RequestParam("department") String department,
                           @RequestParam("salary") int salary,
                           @RequestParam("password") String password) {
-        Users user = new Users (name, surName, department, salary, password);
-        userService.saveUser(user);
+        userService.saveUser(name, surName, department, salary, password);
         return "redirect:/users";
     }
 
     @PostMapping("/delete")
     public String deleteUser(@RequestParam("id") long id) {
-        userService.deleteUser(id);
+        userService.removeUserById(id);
         return "redirect:/users";
     }
 
@@ -50,11 +51,10 @@ public class UserController {
                              @RequestParam("department") String department,
                              @RequestParam("salary") int salary,
                              @RequestParam("password") String password) {
-        Users user = new Users (name, surName, department, salary, password);
-        user.setId(id);
-        userService.updateUser(user);
+        userService.updateUser(id, name, surName, department, salary, password);
         return "redirect:/users";
     }
+
     @GetMapping("/new")
     public String newUser(Model model) {
         model.addAttribute("user", new Users());

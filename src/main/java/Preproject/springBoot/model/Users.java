@@ -32,17 +32,17 @@ public class Users {
         this.surName = surName;
         this.department = department;
         this.salary = salary;
-        this.password = this.password;
+        this.password = password;
     }
 
     public Users() {
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
